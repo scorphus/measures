@@ -1,4 +1,5 @@
 [![][travis-badge]][travis-link]
+[![][coverage-badge]][coverage-link]
 ![][license-badge]
 ![][go-version]
 
@@ -65,6 +66,8 @@ func yetanotherLengthyOperation() {
 [bsd-2cl]:         https://opensource.org/licenses/BSD-2-Clause
 [contributors]:    https://github.com/scorphus/measures/blob/master/CONTRIBUTORS
 [go-version]:      https://img.shields.io/badge/Go->=1.5.1-6DD2F0.svg
+[coverage-badge]:  https://img.shields.io/coveralls/scorphus/measures.svg
+[coverage-link]:   https://coveralls.io/github/scorphus/measures
 [license-badge]:   https://img.shields.io/badge/license-BSD_2‑Clause-007EC7.svg
 [travis-badge]:    http://img.shields.io/travis/scorphus/measures.svg
 [travis-link]:     https://travis-ci.org/scorphus/measures
