@@ -64,7 +64,7 @@ func yetanotherLengthyOperation() {
 [authors]:         https://github.com/scorphus/measures/blob/master/AUTHORS
 [bsd-2cl]:         https://opensource.org/licenses/BSD-2-Clause
 [contributors]:    https://github.com/scorphus/measures/blob/master/CONTRIBUTORS
-[go-version]:      https://img.shields.io/badge/Go->=1.4-6DD2F0.svg
+[go-version]:      https://img.shields.io/badge/Go->=1.5.1-6DD2F0.svg
 [license-badge]:   https://img.shields.io/badge/license-BSD_2‑Clause-007EC7.svg
 [travis-badge]:    http://img.shields.io/travis/scorphus/measures.svg
 [travis-link]:     https://travis-ci.org/scorphus/measures
