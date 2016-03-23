@@ -64,28 +64,20 @@ func (c *client) Write(b []byte) (n int, err error) {
 	return c.conn.Write(b)
 }
 
-type Measures interface {
-	send(d Dimensions) (int, error)
-	CleanUp()
-	Count(metric string, counter int, dimensions Dimensions) error
-	Time(metric string, startTime time.Time, dimensions Dimensions) error
-	SetClient(client Client) error
-}
-
-type measures struct {
+type Measures struct {
 	client     Client
 	clientName string
 }
 
-func New(client, address string) Measures {
-	m := measures{clientName: client}
+func New(client, address string) *Measures {
+	m := Measures{clientName: client}
 	if address != "" {
 		m.client = NewClient(address)
 	}
 	return &m
 }
 
-func (m *measures) send(d Dimensions) (n int, err error) {
+func (m *Measures) send(d Dimensions) (n int, err error) {
 	b, err := json.Marshal(d)
 	if err != nil {
 		return 0, err
@@ -93,11 +85,11 @@ func (m *measures) send(d Dimensions) (n int, err error) {
 	return m.client.Write(b)
 }
 
-func (m *measures) CleanUp() {
+func (m *Measures) CleanUp() {
 	m.client.Disconnect()
 }
 
-func (m *measures) Count(metric string, counter int, dimensions Dimensions) error {
+func (m *Measures) Count(metric string, counter int, dimensions Dimensions) error {
 	d := make(Dimensions, len(dimensions)+3)
 	d["client"] = m.clientName
 	d["count"] = counter
@@ -112,12 +104,12 @@ func (m *measures) Count(metric string, counter int, dimensions Dimensions) erro
 	return nil
 }
 
-func (m *measures) SetClient(client Client) error {
+func (m *Measures) SetClient(client Client) error {
 	m.client = client
 	return nil
 }
 
-func (m *measures) Time(metric string, startTime time.Time, dimensions Dimensions) error {
+func (m *Measures) Time(metric string, startTime time.Time, dimensions Dimensions) error {
 	d := make(Dimensions, len(dimensions)+3)
 	d["client"] = m.clientName
 	d["metric"] = metric
