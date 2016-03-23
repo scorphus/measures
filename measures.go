@@ -106,10 +106,7 @@ func (m *measures) Count(metric string, counter int, dimensions Dimensions) erro
 		d[k] = v
 	}
 	_, err := m.send(d)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 func (m *measures) SetClient(client Client) error {
@@ -126,8 +123,5 @@ func (m *measures) Time(metric string, startTime time.Time, dimensions Dimension
 		d[k] = v
 	}
 	_, err := m.send(d)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
