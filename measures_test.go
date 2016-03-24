@@ -34,7 +34,7 @@ type S struct {
 	conn       *net.UDPConn
 	client     measures.Client
 	stubClient stubClient
-	measures   measures.Measures
+	measures   *measures.Measures
 }
 
 var _ = Suite(&S{})
