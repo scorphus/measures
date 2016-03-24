@@ -24,11 +24,7 @@ type client struct {
 }
 
 func NewClient(address string) Client {
-	c := client{}
-	if address != "" {
-		c.address = address
-	}
-	return &c
+	return &client{address: address}
 }
 
 func (c *client) Connect() (err error) {
@@ -36,12 +32,9 @@ func (c *client) Connect() (err error) {
 	return err
 }
 
-func (c *client) Disconnect() error {
+func (c *client) Disconnect() (err error) {
 	if c.conn != nil {
-		err := c.conn.Close()
-		if err != nil {
-			return err
-		}
+		return c.conn.Close()
 	}
 	return nil
 }
@@ -49,9 +42,9 @@ func (c *client) Disconnect() error {
 func (c *client) Write(b []byte) (n int, err error) {
 	if c.conn == nil {
 		err = c.Connect()
-	}
-	if err != nil {
-		return 0, err
+		if err != nil {
+			return 0, err
+		}
 	}
 	n, err = c.conn.Write(b)
 	if err == nil {
@@ -89,7 +82,7 @@ func (m *Measures) CleanUp() {
 	m.client.Disconnect()
 }
 
-func (m *Measures) Count(metric string, counter int, dimensions Dimensions) error {
+func (m *Measures) Count(metric string, counter int, dimensions Dimensions) (err error) {
 	d := make(Dimensions, len(dimensions)+3)
 	d["client"] = m.clientName
 	d["count"] = counter
@@ -97,16 +90,16 @@ func (m *Measures) Count(metric string, counter int, dimensions Dimensions) erro
 	for k, v := range dimensions {
 		d[k] = v
 	}
-	_, err := m.send(d)
+	_, err = m.send(d)
 	return err
 }
 
-func (m *Measures) SetClient(client Client) error {
+func (m *Measures) SetClient(client Client) (err error) {
 	m.client = client
 	return nil
 }
 
-func (m *Measures) Time(metric string, startTime time.Time, dimensions Dimensions) error {
+func (m *Measures) Time(metric string, startTime time.Time, dimensions Dimensions) (err error) {
 	d := make(Dimensions, len(dimensions)+3)
 	d["client"] = m.clientName
 	d["metric"] = metric
@@ -114,6 +107,6 @@ func (m *Measures) Time(metric string, startTime time.Time, dimensions Dimension
 	for k, v := range dimensions {
 		d[k] = v
 	}
-	_, err := m.send(d)
+	_, err = m.send(d)
 	return err
 }
