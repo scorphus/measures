@@ -6,6 +6,7 @@ package measures
 
 import (
 	"encoding/json"
+	"errors"
 	"net"
 	"time"
 )
@@ -74,6 +75,9 @@ func (m *Measures) send(d Dimensions) (n int, err error) {
 	b, err := json.Marshal(d)
 	if err != nil {
 		return 0, err
+	}
+	if m.client == nil {
+		return 0, errors.New("no client set")
 	}
 	return m.client.Write(b)
 }

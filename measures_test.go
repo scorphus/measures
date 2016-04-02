@@ -190,6 +190,13 @@ func (s *S) TestCountMulti(c *C) {
 	c.Check(s.stubClient.output, Equals, `{"L":10,"M":5,"XL":20,"client":"tests","count":3,"metric":"sizes"}{"client":"tests","count":1,"metric":"books","pages":337,"stars":4.19,"title":"Blood Meridian"}{"client":"tests","count":1,"magnum_opus":"Blood Meridian","metric":"authors","name":"Cormac McCarthy","prize":"Pulitzer 2007"}`)
 }
 
+func (s *S) TestCountWithNoClientErrsNicely(c *C) {
+	m := measures.New("tests", "")
+	sizes := measures.Dimensions{"XL": 20, "L": 10, "M": 5}
+	err := m.Count("sizes", 3, sizes)
+	c.Assert(err.Error(), Equals, "no client set")
+}
+
 func (s *S) TestTime(c *C) {
 	done := make(chan bool)
 	go func() {
